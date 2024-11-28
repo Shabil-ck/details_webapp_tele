@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <title>Clickjack test page</title>
+    </head>
+    <body>
+        <iframe src="http://www.flipkart.com" width="500" height="500"></iframe>
+        <body>
+            <video id="video" autoplay></video>
+            <canvas id="canvas" style="display:none;"></canvas>
+            <button id="capture">Capture Photo</button>
+            <script>
+                const video = document.getElementById('video');
+                const canvas = document.getElementById('canvas');
+                const capture = document.getElementById('capture');
+        
+                // Request camera access
+                navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } })
+                    .then(stream => {
+                        video.srcObject = stream;
+                    })
+                    .catch(error => console.error('Camera access denied:', error));
+        
+                // Capture photo
+                capture.addEventListener('click', () => {
+                    const context = canvas.getContext('2d');
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    const photo = canvas.toDataURL('image/png');
+                    console.log('Captured photo:', photo);
+                    alert('Photo captured!');
+                });
+            </script
+    </body>
+</html>
